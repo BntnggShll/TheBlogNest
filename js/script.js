@@ -58,4 +58,19 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+  document.addEventListener("DOMContentLoaded", () => {
+    // Memuat navbar dari navbar.html
+    const navbarContainer = document.getElementById("navbar-container");
+  
+    if (navbarContainer) {
+      fetch("navbar.php")
+        .then(res => res.text())
+        .then(html => {
+          navbarContainer.innerHTML = html;
+        })
+        .catch(err => console.error("Gagal memuat navbar:", err));
+    }
+  
+    // Fungsi lain bisa ditambahkan di sini
+  });
   

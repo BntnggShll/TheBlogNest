@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user   = $result->fetch_assoc();
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id']  = $user['id'];
+        $_SESSION['id']  = $user['id'];
         $_SESSION['nama']     = $user['nama'];
         $_SESSION['email']    = $user['email'];
         $_SESSION['role']     = $user['role'];
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'success' => true,
             'message' => 'Login berhasil.',
-            'redirect' => 'index.html'
+            'redirect' => 'index.php'
         ]);
     } else {
         echo json_encode([
