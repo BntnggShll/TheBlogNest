@@ -1,5 +1,4 @@
 <?php
-session_start();
 require __DIR__.'/../koneksi.php';
 
 $sql = "SELECT a.id, a.judul, a.isi, a.penulis_id, a.gambar, a.tanggal_publikasi, c.nama AS kategori

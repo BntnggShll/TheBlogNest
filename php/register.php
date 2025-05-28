@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'success' => true,
             'message' => 'Registrasi berhasil. Silakan login.',
-            'redirect' => 'login.html'
+            'redirect' => 'login.php'
         ]);
     } else {
         echo json_encode([

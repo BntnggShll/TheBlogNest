@@ -1,17 +1,11 @@
-<?php
-session_start();
-if ($_SESSION !== null) {
-  header("Location: index.php");
-  exit();
-}
-?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrasi Pengguna</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
     <div class="container">
@@ -29,7 +23,7 @@ if ($_SESSION !== null) {
             <button type="submit">Daftar</button>
         </form>
         <p id="message"></p>
-        <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
+        <p>Sudah punya akun? <a href="login.php">Login di sini</a></p>
     </div>
 
     <script>
