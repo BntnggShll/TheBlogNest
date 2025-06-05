@@ -1,12 +1,11 @@
 <?php
-session_start();
 include 'koneksi.php';
-
+session_start();
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data
-    $email    = trim($_POST['email'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
     // Validasi input kosong
@@ -23,13 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
-    $user   = $result->fetch_assoc();
+    $user = $result->fetch_assoc();
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['id']  = $user['id'];
-        $_SESSION['nama']     = $user['nama'];
-        $_SESSION['email']    = $user['email'];
-        $_SESSION['role']     = $user['role'];
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['nama'] = $user['nama'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['status'] = $user['status'];
+        $_SESSION['foto_profil'] = $user['foto_profil'];
+        $_SESSION['bio'] = $user['bio'];
 
         echo json_encode([
             'success' => true,
@@ -39,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo json_encode([
             'success' => false,
-            
+
             'message' => 'Email atau password salah.'
         ]);
     }

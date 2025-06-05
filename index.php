@@ -29,8 +29,13 @@ $categories = [
             <h1>Welcome to The Blog Nest</h1>
             <p>A Platform for Sharing Knowledge and Insights with the World</p>
             <div class="hero-buttons">
-                <a href="register.php" class="btn btn-primary">Join Now</a>
-                <a href="login.php" class="btn btn-secondary">Login</a>
+                <?php if (isset($_SESSION['nama'])) {
+                    echo '<a href="createarticle.php" class="btn btn-primary">Create Now</a>';
+                } else {
+                    echo '<a href="register.php" class="btn btn-primary">Join Now</a>';
+                    echo '<a href="login.php" class="btn btn-secondary">Login</a>';
+                } ?>
+
             </div>
         </div>
     </section>
@@ -42,16 +47,20 @@ $categories = [
                 <a href="articles.php" class="view-all-link">View All Articles</a>
             </div>
             <div class="row">
-                <?php foreach ($articles as $article): ?>
-                    <div class="card">
-                        <h2><?= htmlspecialchars($article['judul']) ?></h2>
-                        <?php if ($article['gambar']): ?>
-                            <img src="<?= htmlspecialchars($article['gambar']) ?>" alt="gambar" style="max-width:200px;">
-                        <?php endif; ?>
-                        <p><?= nl2br(htmlspecialchars($article['isi'])) ?></p>
-                        <p><strong>Kategori:</strong> <?= htmlspecialchars($article['kategori']) ?></p>
-                        <p><strong>Tanggal:</strong> <?= htmlspecialchars($article['tanggal_publikasi']) ?></p>
-                    </div>
+                <?php foreach (array_slice($articles, 0, 5) as $article): ?>
+                    <a href="readartikel.php?id=<?= urlencode($article['id']) ?>"
+                        style="text-decoration: none; color: inherit;">
+                        <div class="card" style="cursor: pointer;">
+                            <h2><?= htmlspecialchars($article['judul']) ?></h2>
+                            <?php if ($article['gambar']): ?>
+                                <img src="<?= htmlspecialchars($article['gambar'], ENT_QUOTES, 'UTF-8') ?>" alt="gambar"
+                                    style="max-width:200px;">
+                            <?php endif; ?>
+                            <p><?= nl2br(htmlspecialchars($article['kutipan'])) ?></p>
+                            <p><strong>Kategori:</strong> <?= htmlspecialchars($article['kategori']) ?></p>
+                            <p><strong>Tanggal:</strong> <?= htmlspecialchars($article['tanggal_publikasi']) ?></p>
+                        </div>
+                    </a>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -74,6 +83,8 @@ $categories = [
             </div>
         </div>
     </section>
+
+
 
     <?php include 'footer.php'; ?>
     <script src="js/script.js"></script>

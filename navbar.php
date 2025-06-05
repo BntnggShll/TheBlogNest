@@ -1,6 +1,9 @@
 <?php
-session_start();
 require ('php/koneksi.php');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 ?>
 <header class="site-header">
     <div class="container header-container">
