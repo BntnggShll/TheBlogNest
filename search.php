@@ -1,4 +1,5 @@
 
+<?php include 'php/koneksi.php'?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,8 +12,7 @@
 </head>
 
 <body>
-    <div id="navbar-container"></div>
-
+    <?php include 'navbar.php'?>
     <!-- Search Section -->
     <section class="section">
         <div class="container">
@@ -35,66 +35,7 @@
 
     <?php include 'footer.php'; ?>
 
-    <script>
-        const searchForm = document.getElementById("search-form");
-        const searchInput = document.getElementById("search-input");
-        const resultContainer = document.querySelector(".search-results-container");
-        const querySpan = document.querySelector(".search-query");
-
-        function renderArticles(articles) {
-            resultContainer.innerHTML = "";
-            if (articles.length === 0) {
-                resultContainer.innerHTML = "<p>No articles found.</p>";
-                return;
-            }
-
-            articles.forEach((article) => {
-                const card = document.createElement("div");
-                card.className = "col col-4";
-                card.innerHTML = `
-          <div class="card">
-            <img src="${article.gambar || 'default.jpg'}" alt="${article.judul}" class="card-img" />
-            <div class="card-body">
-              <h3>${article.judul}</h3>
-              <p>${article.isi.substring(0, 100)}...</p>
-              <p><small>${article.tanggal_publikasi}</small></p>
-            </div>
-          </div>
-        `;
-                resultContainer.appendChild(card);
-            });
-        }
-
-        function loadArticles(keyword = "") {
-            fetch(`api/read.php`)
-                .then((res) => res.json())
-                .then((data) => {
-                    const filtered = keyword
-                        ? data.filter((item) =>
-                            item.judul.toLowerCase().includes(keyword.toLowerCase())
-                        )
-                        : data;
-                    renderArticles(filtered);
-                })
-                .catch((err) => {
-                    resultContainer.innerHTML = "<p>Failed to load articles.</p>";
-                    console.error(err);
-                });
-        }
-
-        searchForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const keyword = searchInput.value.trim();
-            querySpan.textContent = keyword || "All Articles";
-            loadArticles(keyword);
-        });
-
-        // Load all articles on first load
-        window.addEventListener("DOMContentLoaded", () => {
-            loadArticles();
-        });
-    </script>
-    <script src="js/script.js"></script>
+    
 </body>
 
 </html>

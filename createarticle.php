@@ -61,7 +61,7 @@
 
                         <div class="form-group text-center">
                             <button type="button" class="btn btn-secondary"
-                                onclick="window.location.href='manage-articles.html'">Cancel</button>
+                                onclick="window.location.href='index.php'">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save Article</button>
                         </div>
                     </form>
