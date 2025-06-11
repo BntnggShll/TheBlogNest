@@ -1,4 +1,5 @@
 <?php
+session_start();
 $data = require 'php/artikel/readbyiduser.php';
 
 $articles = $data['articles'];

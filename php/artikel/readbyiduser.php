@@ -1,4 +1,5 @@
 <?php
+session_start();
 require __DIR__ . '/../koneksi.php';
 
 $userId = $_SESSION['id']; // ambil ID user dari session, pastikan sudah login

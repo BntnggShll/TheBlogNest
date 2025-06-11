@@ -1,5 +1,4 @@
 <?php
-session_start();
 header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -53,7 +52,7 @@ if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
 require __DIR__ . '/../koneksi.php';
 
 // Bangun query update
-$updateQuery = "UPDATE articles SET judul = ?, isi = ?, kutipan = ?, updated_at = NOW()";
+$updateQuery = "UPDATE articles SET judul = ?, isi = ?, kutipan = ?";
 $params = [$judul, $isi, $kutipan];
 $types = "sss";
 
@@ -74,19 +73,21 @@ $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
     // Update kategori jika dikirim
-    if (is_array($kategori_id_list)) {
+    if (!empty($kategori_id_list) && is_array($kategori_id_list)) {
         // Hapus kategori lama
         $deleteStmt = $koneksi->prepare("DELETE FROM article_category WHERE artikel_id = ?");
         $deleteStmt->bind_param("i", $id);
         $deleteStmt->execute();
-
-        // Masukkan kategori baru
+    
+        // Masukkan kategori baru jika ada
         $insertStmt = $koneksi->prepare("INSERT INTO article_category (artikel_id, kategori_id) VALUES (?, ?)");
         foreach ($kategori_id_list as $kategori_id) {
             $insertStmt->bind_param("ii", $id, $kategori_id);
             $insertStmt->execute();
         }
     }
+    
+    
 
     echo json_encode(['success' => true, 'message' => 'Artikel berhasil diperbarui']);
 } else {

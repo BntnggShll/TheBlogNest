@@ -66,7 +66,7 @@ if ($stmt->execute()) {
         $catStmt->bind_param("ii", $artikel_id, $kategori_id);
         $catStmt->execute();
     }
-
+    ob_clean();
     echo json_encode(['success' => true, 'message' => 'Artikel berhasil disimpan', 'article_id' => $artikel_id]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Gagal menyimpan artikel', 'error' => $stmt->error]);

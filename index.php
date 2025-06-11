@@ -1,4 +1,5 @@
 <?php
+session_start();
 $articles = require 'php/artikel/read.php';
 $categories = [
     ['slug' => 'webdev', 'name' => 'Web Development', 'icon' => '🌐', 'count' => 125],
