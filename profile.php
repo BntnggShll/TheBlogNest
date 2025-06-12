@@ -1,5 +1,4 @@
 <?php
-session_start();
 $data = require 'php/artikel/readbyiduser.php';
 
 $articles = $data['articles'];
@@ -9,7 +8,7 @@ $profile = $data['profile'];
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit(); // Hentikan eksekusi script
-    
+
 } ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,29 +52,53 @@ if (!isset($_SESSION['id'])) {
             </div>
 
             <div class="profile-actions mb-30">
-                <a href="manage_artikel.php" class="btn btn-primary">Manage Articles</a>
-                <a onclick="openModal()"  class="btn btn-secondary">Edit Profile</a>
+                <a onclick="openModal()" class="btn btn-primary">Edit Profile</a>
 
             </div>
 
             <h2>Articles by <?php echo $_SESSION['nama']; ?></h2>
 
-            <?php
-            foreach ($articles as $article): ?>
-                <a href="readartikel.php?id=<?= urlencode($article['id']) ?>"
-                    style="text-decoration: none; color: inherit;">
-                    <div class="card">
-                        <h2><?= htmlspecialchars($article['judul']) ?></h2>
-                        <?php if ($article['gambar']): ?>
-                            <img src="<?= htmlspecialchars($article['gambar'], ENT_QUOTES, 'UTF-8') ?>" alt="gambar"
-                                style="max-width:200px;">
-                        <?php endif; ?>
-                        <p><?= nl2br(htmlspecialchars($article['kutipan'])) ?></p>
-                        <p><strong>Kategori:</strong> <?= htmlspecialchars($article['kategori']) ?></p>
-                        <p><strong>Tanggal:</strong> <?= htmlspecialchars($article['tanggal_publikasi']) ?></p>
-                    </div>
-                </a>
-            <?php endforeach; ?>
+            <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Gambar</th>
+                        <th>Kutipan</th>
+                        <th>Kategori</th>
+                        <th>Tanggal Publikasi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($articles as $article): ?>
+                        <tr>
+                            <td>
+                                <a href="readartikel.php?id=<?= urlencode($article['id']) ?>"
+                                    style="text-decoration: none; color: inherit;">
+                                    <?= htmlspecialchars($article['judul']) ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?php if ($article['gambar']): ?>
+                                    <img src="<?= htmlspecialchars($article['gambar'], ENT_QUOTES, 'UTF-8') ?>" alt="gambar"
+                                        style="max-width:100px;">
+                                <?php endif; ?>
+                            </td>
+                            <td><?= nl2br(htmlspecialchars($article['kutipan'])) ?></td>
+                            <td><?= htmlspecialchars($article['kategori']) ?></td>
+                            <td><?= htmlspecialchars($article['tanggal_publikasi']) ?></td>
+                            <td>
+                                <a href="createarticle.php?id=<?= urlencode($article['id']) ?>" class="icon-btn edit-btn"
+                                    title="Edit">&#9998;</a>
+                                <button class="icon-btn delete-btn" data-id="<?= $article['id'] ?>"
+                                    title="Delete">&#128465;</button>
+                            </td>
+
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
         </div>
 
     </section>
@@ -136,6 +159,41 @@ if (!isset($_SESSION['id'])) {
             if (event.target === modal) {
                 modal.style.display = "none";
             }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const deleteButtons = document.querySelectorAll(".delete-btn");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    const articleId = button.dataset.id;
+
+                    if (confirm("Yakin ingin menghapus artikel ini?")) {
+                        fetch("php/artikel/delete.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            body: `id=${encodeURIComponent(articleId)}`
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert("Artikel berhasil dihapus.");
+                                    window.location.reload();
+                                } else {
+                                    alert("Gagal menghapus: " + (data.message || "Terjadi kesalahan"));
+                                }
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                alert("Terjadi kesalahan saat menghapus.");
+                            });
+                    }
+                });
+            });
         });
     </script>
 
