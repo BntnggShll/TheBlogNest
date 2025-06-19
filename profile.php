@@ -52,8 +52,8 @@ if (!isset($_SESSION['id'])) {
 
             <div class="profile-actions mb-30">
                 <a onclick="openModal()" class="btn btn-primary">Edit Profile</a>
-                <form action="php/logout.php" method="get" onsubmit="return confirm('Are you sure you want to log out?');"
-                    style="display: inline;">
+                <form action="php/logout.php" method="get"
+                    onsubmit="return confirm('Are you sure you want to log out?');" style="display: inline;">
                     <button type="submit" class="btn btn-secondary">
                         Logout
                     </button>
@@ -120,8 +120,7 @@ if (!isset($_SESSION['id'])) {
                 <button class="close-modal" id="close-modal">×</button>
             </div>
 
-            <form id="edit-profile-form" action="php/user/update.php" method="POST"
-                enctype="multipart/form-data">
+            <form id="edit-profile-form" action="php/user/update.php" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="profile-name" class="form-label">Name</label>
                     <input type="text" id="profile-name" name="name" class="form-control"
@@ -161,17 +160,14 @@ if (!isset($_SESSION['id'])) {
     <?php include 'footer.php'; ?>
 
     <script>
-        // Buka modal saat dibutuhkan (misalnya dengan tombol Edit)
         function openModal() {
             document.getElementById("edit-profile-modal").style.display = "block";
         }
 
-        // Tutup modal saat tombol close diklik
         document.getElementById("close-modal").addEventListener("click", function () {
             document.getElementById("edit-profile-modal").style.display = "none";
         });
 
-        // Tutup modal jika klik di luar modal content
         window.addEventListener("click", function (event) {
             const modal = document.getElementById("edit-profile-modal");
             if (event.target === modal) {
@@ -198,8 +194,8 @@ if (!isset($_SESSION['id'])) {
                         })
                             .then(res => res.json())
                             .then(data => {
-                                if (data.success) {Article deleted successfully
-                                    alert(".");
+                                if (data.success) {
+                                    alert("Article deleted successfully.");
                                     window.location.reload();
                                 } else {
                                     alert("Failed to delete: " + (data.message || "Something went wrong."));
@@ -214,6 +210,7 @@ if (!isset($_SESSION['id'])) {
             });
         });
     </script>
+
 
 
 </body>

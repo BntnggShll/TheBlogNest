@@ -7,6 +7,6 @@
     <li><a href="authors.php"><span class="icon">👥</span><span class="text">Authors</span></a></li>
     <li><a href="articles.php"><span class="icon">📝</span><span class="text">Articles</span></a></li>
     <li><a href="categories.php"><span class="icon">📂</span><span class="text">Categories</span></a></li>
-    <li><a href="php/logout.php" onclick="return confirm('Are you sure you want to log out?')"><span class="icon">🚪</span><span class="text">Logout</span></a></li>
+    <li><a href="../php/logout.php" onclick="return confirm('Are you sure you want to log out?')"><span class="icon">🚪</span><span class="text">Logout</span></a></li>
   </ul>
 </div>
