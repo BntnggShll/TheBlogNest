@@ -32,6 +32,13 @@ if (!$judul || !$isi || !$kutipan || empty($kategori_id_list)) {
 // Upload gambar
 $gambar_path = '';
 if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+    // Batas ukuran file 5MB
+    $maxSize = 5 * 1024 * 1024; // 5MB
+    if ($_FILES['gambar']['size'] > $maxSize) {
+        echo json_encode(['success' => false, 'message' => 'Ukuran gambar tidak boleh lebih dari 5MB']);
+        exit;
+    }
+
     $uploadDir = __DIR__ . '/../../uploads/';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
@@ -47,6 +54,7 @@ if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         exit;
     }
 }
+
 
 // Koneksi DB
 require __DIR__ . '/../koneksi.php';

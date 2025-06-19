@@ -23,13 +23,6 @@
                     <li><a href="search.php">Search</a></li>
                     <?php if (isset($_SESSION['nama'])): ?>
                         <li><a href="profile.php">Profile</a></li>
-                        <li>
-                            <form action="php/logout.php" method="get"
-                                onsubmit="return confirm('Apakah Anda yakin ingin logout?');">
-                                <button type="submit"
-                                    style="background: none; border: none; padding: 0; color: #fff; cursor: pointer; text-align: left;">Logout</button>
-                            </form>
-                        </li>
                     <?php else: ?>
                         <li><a href="login.php">Login</a></li>
                         <li><a href="register.php">Register</a></li>

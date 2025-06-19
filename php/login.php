@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Tentukan redirect berdasarkan role
         $redirect = 'index.php'; // default
         if ($user['role'] === 'admin') {
-            $redirect = 'admin.php';
+            $redirect = 'admin/admin.php';
         }
 
         echo json_encode([

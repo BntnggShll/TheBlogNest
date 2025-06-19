@@ -166,7 +166,11 @@ if (!isset($_SESSION['id'])) {
                 .then(result => {
                     if (result.success) {
                         alert('Artikel berhasil disimpan!');
-                        window.location.href = 'index.php';
+                        if ('<?= $_SESSION['role'] ?>' === 'admin') {
+                            window.location.href = 'admin/articles.php';
+                        } else {
+                            window.location.href = 'index.php';
+                        }
                     } else {
                         alert('Gagal menyimpan artikel: ' + result.message);
                     }

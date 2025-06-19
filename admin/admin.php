@@ -1,10 +1,10 @@
 <?php
 session_start();
-// if ($_SESSION['role'] !== 'admin') {
-//     header("Location: index.php");
-//     exit(); // Hentikan eksekusi script
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: ../index.php");
+    exit(); // Hentikan eksekusi script
 
-// }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,13 +13,12 @@ session_start();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Blog Nest - A Platform for Sharing Knowledge</title>
-    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
 </head>
 
 <body>
  <?php include 'sidebar.php'?>
     <div class="chart-container-wrapper">
-        <!-- Chart 1 -->
         <section class="chart-container">
             <h2>Jumlah Artikel per Penulis per Kategori</h2>
             <div id="chart1" class="chart"></div>
@@ -28,7 +27,6 @@ session_start();
             </div>
         </section>
 
-        <!-- Chart 2 -->
         <section class="chart-container">
             <h2>Jumlah Artikel Berdasarkan Tanggal Publikasi</h2>
             <div id="chart2" class="chart"></div>
@@ -39,8 +37,7 @@ session_start();
     </div>
 
     <script>
-        // CHART 1: Artikel per Penulis
-        fetch('php/chartuser.php')
+        fetch('../php/chartuser.php')
             .then(res => res.json())
             .then(response => {
                 const data = response.data;
@@ -95,8 +92,7 @@ session_start();
                 }
             });
 
-        // CHART 2: Artikel per Tanggal
-        fetch('php/chartartikel.php')
+        fetch('../php/chartartikel.php')
             .then(res => res.json())
             .then(response => {
                 const data = response.data;

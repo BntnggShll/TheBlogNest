@@ -1,39 +1,37 @@
 body {
-    background-color: #f9f9f9;
-}
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+  }
 
-
-/* Container untuk membagi kiri dan kanan */
 .chart-container-wrapper {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    margin: 30px 300px;
+    margin-left: 220px;
+    width: 100%;
+    justify-content: center;
 }
 
-/* Container tiap chart */
 .chart-container {
-    flex: 1;
     border: 1px solid #ccc;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    max-width: 500px;
+    margin-top: 20px;
+    width: 43%;
 }
 
-/* Chart bar style */
 .chart {
-    height: 350px; /* atau berapa pun yang kamu mau */
+    height: 350px; 
     display: flex;
     align-items: flex-end;
     gap: 10px;
 }
 
-
-/* Group bar per kategori/tanggal */
 .bar-group {
     display: flex;
-    flex-direction: column-reverse; /* 👈 Batang di bawah, label di atas */
+    flex-direction: column-reverse; 
     align-items: center;
     gap: 4px;
     height: 100%;

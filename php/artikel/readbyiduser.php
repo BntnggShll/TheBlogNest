@@ -2,9 +2,8 @@
 session_start();
 require __DIR__ . '/../koneksi.php';
 
-$userId = $_SESSION['id']; // ambil ID user dari session, pastikan sudah login
+$userId = $_SESSION['id']; 
 
-// 1. Ambil data artikel dan kategori
 $sql = "SELECT a.id, a.judul, a.isi, a.penulis_id, a.gambar, a.kutipan,
                DATE(a.created_at) AS tanggal_publikasi,
                c.nama AS kategori,
@@ -47,11 +46,8 @@ if ($result->num_rows > 0) {
                 "kutipan" => $row["kutipan"]
             ];
 
-            // simpan data profile dari penulis
             if (!$profile) {
-                // Format tanggal created_at
                 $createdAtFormatted = $row["created_at"] ? date("d F Y", strtotime($row["created_at"])) : null;
-
                 $profile = [
                     "penulis" => $row["penulis"],
                     "foto" => $row["foto"] ? "/TheBlogNest/" . $row["foto"] : null,
@@ -69,9 +65,23 @@ if ($result->num_rows > 0) {
         $article["kategori"] = implode(", ", $article["kategori"]);
         return $article;
     }, $articles));
+} else {
+    $sqlUser = "SELECT nama AS penulis, foto_profil AS foto, created_at FROM users WHERE id = ?";
+    $stmtUser = $koneksi->prepare($sqlUser);
+    $stmtUser->bind_param("i", $userId);
+    $stmtUser->execute();
+    $userResult = $stmtUser->get_result();
+
+    if ($userRow = $userResult->fetch_assoc()) {
+        $createdAtFormatted = $userRow["created_at"] ? date("d F Y", strtotime($userRow["created_at"])) : null;
+        $profile = [
+            "penulis" => $userRow["penulis"],
+            "foto" => $userRow["foto"] ? "/TheBlogNest/" . $userRow["foto"] : null,
+            "tanggal_bergabung" => $createdAtFormatted
+        ];
+    }
 }
 
-// 2. Hitung total artikel dari penulis
 $sqlCount = "SELECT COUNT(*) AS total FROM articles WHERE penulis_id = ?";
 $stmtCount = $koneksi->prepare($sqlCount);
 $stmtCount->bind_param("i", $userId);
@@ -83,8 +93,9 @@ if ($row = $countResult->fetch_assoc()) {
     $totalArtikel = (int) $row['total'];
 }
 
-// Tambahkan total artikel ke data profile
-$profile["total_artikel"] = $totalArtikel;
+if ($profile) {
+    $profile["total_artikel"] = $totalArtikel;
+}
 
 return [
     "profile" => $profile,
